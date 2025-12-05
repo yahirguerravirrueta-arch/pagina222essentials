@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison Kicks — Hoodie (Opción A)</title>
+  <style>
+    :root{
+      --max-width:1200px;
+      --accent:#111;
+      --muted:#6b7280;
+      --muted-2:#9ca3af;
+      --gap:20px;
+      --surface:#ffffff;
+      --card:#fbfbfc;
+      --radius:12px;
+      --shadow: 0 8px 20px rgba(16,24,40,0.06);
+      --container-padding:18px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--surface);color:var(--accent);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    header{
+      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.85));
+      backdrop-filter: blur(4px);
+      position:sticky;
+      top:0;
+      z-index:20;
+      border-bottom:1px solid #f1f1f1;
+    }
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:12px var(--container-padding);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      font-family: "Times New Roman", serif;
+      font-style:italic;
+      font-weight:700;
+      letter-spacing:3px;
+      font-size:20px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .logo-large{font-family: "Zapfino", serif; font-size:26px; margin-right:4px; color:var(--accent)}
+    .topbar{font-size:13px;color:var(--muted)}
+
+    main{max-width:var(--max-width);margin:28px auto;padding:0 var(--container-padding)}
+
+    .product{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    /* gallery column */
+    .gallery{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:var(--shadow);
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+    .thumbs{
+      width:96px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .thumbs img{
+      width:100%;
+      cursor:pointer;
+      border-radius:10px;
+      border:1px solid #f0f0f0;
+      object-fit:cover;
+    }
+    .hero{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:6px;
+    }
+    .hero img{
+      max-width:520px;
+      width:100%;
+      height:auto;
+      border-radius:10px;
+      border:1px solid #f3f4f6;
+      background:linear-gradient(180deg,#fff,#fafafa);
+    }
+
+    /* info column */
+    .info{
+      background:transparent;
+      padding:8px 4px;
+    }
+    .title{font-size:20px;font-weight:700;margin:0;color:var(--accent)}
+    .subtitle{color:var(--muted);margin-top:6px;font-size:14px}
+    .price{
+      font-size:22px;
+      font-weight:800;
+      margin:16px 0 8px;
+      color:var(--accent);
+    }
+    .price .sub{display:block;font-size:13px;color:var(--muted-2);font-weight:400;margin-top:6px}
+
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    select{padding:10px;border-radius:10px;border:1px solid #e6e7ea;background:#fff;min-width:120px}
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(17,24,39,0.08);
+    }
+    .ghost{
+      background:#fff;
+      border:1px solid #e6e7ea;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .sections{
+      margin-top:22px;
+      border-top:1px solid #f3f4f6;
+      padding-top:18px;
+    }
+    .section h3{margin:0 0 8px;font-size:15px}
+    .muted{color:var(--muted);line-height:1.6}
+
+    /* mini cart */
+    .mini-cart{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:#fff;
+      border:1px solid #eee;
+      padding:12px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(16,24,40,0.06);
+      min-width:220px;
+      display:none;
+      z-index:50;
+    }
+    .cart-item{display:flex;gap:10px;align-items:center}
+    .cart-count{background:var(--accent);color:#fff;padding:6px 8px;border-radius:999px;font-weight:700}
+
+    /* size modal */
+    #sizeModal{position:fixed;inset:0;background:rgba(5,8,13,0.48);display:none;align-items:center;justify-content:center;z-index:9999}
+    .size-panel{background:#fff;width:94%;max-width:700px;max-height:85vh;overflow-y:auto;border-radius:14px;padding:20px;box-shadow:0 16px 40px rgba(2,6,23,0.15)}
+    .size-header{font-size:18px;font-weight:700;border-bottom:1px solid #f3f4f6;padding-bottom:12px;margin-bottom:12px;display:flex;justify-content:space-between}
+    .close-x{font-size:26px;cursor:pointer}
+
+    footer{margin-top:40px;padding:20px;border-top:1px solid #f1f5f9;color:var(--muted);text-align:center}
+
+    /* responsive rules */
+    @media (max-width:980px){
+      .product{grid-template-columns:1fr 360px}
+      .hero img{max-width:420px}
+    }
+    @media (max-width:760px){
+      .product{grid-template-columns:1fr}
+      .gallery{flex-direction:column}
+      .thumbs{order:2;flex-direction:row;width:100%;overflow:auto}
+      .thumbs img{width:84px;flex:0 0 auto}
+      .hero img{max-width:100%}
+      .wrap{padding:10px}
+      main{padding:0 12px}
+      .mini-cart{right:12px;bottom:12px}
+    }
+    @media (max-width:420px){
+      .title{font-size:18px}
+      .price{font-size:18px}
+      .brand{font-size:16px}
+      .logo-large{font-size:22px}
+      .controls{gap:8px}
+      select{min-width:100%}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand"><span class="logo-large">𝑬𝒔𝒔𝒆𝒏𝒕𝒊𝒂𝒍𝒔</span> <span>𝑿 𝑻𝑱</span></div>
+    <div class="topbar">Entrega estimada: 24 nov - 25 nov</div>
+  </div>
+</header>
+
+<main>
+  <div class="product" style="max-width:var(--max-width);margin:0 auto;padding:20px var(--container-padding)">
+
+    <div>
+      <div class="gallery" aria-hidden="false">
+        <div class="thumbs" id="thumbs">
+          <img data-src="./images2/pag02.jpg" src="./images2/pag02.jpg" alt="imag1" id="thumb1">
+          <img data-src="./images2/pag2.jpg" src="./images2/pag2.jpg" alt="imag2" id="thumb2">
+        </div>
+        <div class="hero">
+          <img src="./images2/pag2.jpg" alt="Hoodie" id="hero">
+        </div>
+      </div>
+
+      <div class="sections">
+        <div class="section">
+          <h3>DETALLES DEL PRODUCTO</h3>
+          <p class="muted">Gris oscuro, mezcla de algodón, ribete de canalé, efecto melange; logo estampado en pecho y espalda; capucha holgada, hombros caídos, manga larga, dobladillo recto y bolsillo en la parte delantera.</p>
+        </div>
+
+        <div class="section">
+          <h3>Composición</h3>
+          <p class="muted">Algodón 80%, Poliéster 20%.</p>
+        </div>
+
+        <div class="section">
+          <h3>Instrucciones de lavado</h3>
+          <p class="muted">Lavar a mano.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      <h1 class="title">𝐅𝐞𝐚𝐫 𝐨𝐟 𝐠𝐨𝐝 𝐄𝐬𝐬𝐞𝐧𝐭𝐢𝐚𝐥𝐬</h1>
+      <div class="subtitle">hoodie con logo estampado</div>
+
+      <div class="price">$1,899 <span class="sub">Impuestos aduaneros incluidos</span></div>
+
+      <div class="controls">
+        <div style="min-width:140px">
+          <label for="size">Seleccionar talla</label>
+          <select id="size">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1">
+          <button class="btn" id="addBtn">Añadir a la bolsa</button>
+          <button class="ghost" id="sizeGuide">Guía de tallas</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button class="ghost" id="wish">❤ Lista de deseos</button>
+      </div>
+
+      <div class="sections">
+        <div class="section">
+          <h3>Talla y Ajuste</h3>
+          <p class="muted">Corte oversize. Si dudas entre dos tallas, te recomendamos seleccionar la menor si buscas un ajuste más ceñido.</p>
+        </div>
+
+        <div class="section">
+          <h3>Envíos, devoluciones y vendedores</h3>
+          <p class="muted">Envío estándar 3-5 días hábiles. Devoluciones aceptadas en 30 días.</p>
+        </div>
+
+        <div class="section">
+          <h3>ID de producto</h3>
+          <p class="muted">19312517</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- NEW FARFETCH STYLE SIZE MODAL -->
+<div class="size-modal" id="sizeModal">
+  <div class="size-panel">
+    <div class="size-header">
+      Guía de tallas
+      <span class="close-x" id="closeSizeModal">×</span>
+    </div>
+
+    <div class="size-body">
+      <h2>FEAR OF GOD ESSENTIALS</h2>
+      <div class="size-subtitle">hoodie con paneles y parche del logo</div>
+
+      <table class="size-table" style="width:100%;border-collapse:collapse">
+        <tr><th style="padding:10px;text-align:center">Talla estándar</th><th style="padding:10px;text-align:center">Italia/Francia</th><th style="padding:10px;text-align:center">RU/EEUU</th></tr>
+        <tr><td style="padding:10px;text-align:center">XXXS</td><td style="padding:10px;text-align:center">40</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">XXS</td><td style="padding:10px;text-align:center">42</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">XS</td><td style="padding:10px;text-align:center">44</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">S</td><td style="padding:10px;text-align:center">46</td><td style="padding:10px;text-align:center">48</td></tr>
+        <tr><td style="padding:10px;text-align:center">M</td><td style="padding:10px;text-align:center">48</td><td style="padding:10px;text-align:center">48</td></tr>
+        <tr><td style="padding:10px;text-align:center">L</td><td style="padding:10px;text-align:center">50</td><td style="padding:10px;text-align:center">50</td></tr>
+        <tr><td style="padding:10px;text-align:center">XL</td><td style="padding:10px;text-align:center">52</td><td style="padding:10px;text-align:center">52</td></tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<!-- mini cart -->
+<div id="cart" class="mini-cart" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <strong>Tu bolsa</strong>
+    <span class="cart-count" id="cartCount">0</span>
+  </div>
+  <div id="cartItems"></div>
+  <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
+    <button class="ghost" id="viewCart">Ver bolsa</button>
+    <button class="btn" id="checkout">Pagar</button>
+  </div>
+</div>
+
+<footer>© 2025 Maison Kicks — Moda responsable</footer>
+
+<script>
+  // gallery behavior (sin cambios funcionales)
+  const hero = document.getElementById('hero');
+  document.getElementById('thumb1').addEventListener('click', ()=> hero.src = './images2/pag02.jpg');
+  document.getElementById('thumb2').addEventListener('click', ()=> hero.src = './images2/pag2.jpg');
+
+  /* NEW SIZE MODAL JS (igual que antes) */
+  const sizeModal = document.getElementById("sizeModal");
+  document.getElementById("sizeGuide").onclick = () => sizeModal.style.display="flex";
+  document.getElementById("closeSizeModal").onclick = () => sizeModal.style.display="none";
+  sizeModal.onclick = (e)=>{ if(e.target===sizeModal) sizeModal.style.display="none"; };
+
+  // simple cart (sin cambios funcionales)
+  const addBtn = document.getElementById('addBtn');
+  const cartEl = document.getElementById('cart');
+  const cartCount = document.getElementById('cartCount');
+  const cartItemsEl = document.getElementById('cartItems');
+
+  function loadCart(){
+    const raw = localStorage.getItem('cart_v1');
+    return raw ? JSON.parse(raw) : {items:[]};
+  }
+  function saveCart(cart){ localStorage.setItem('cart_v1', JSON.stringify(cart)); }
+
+  function renderCart(){
+    const cart = loadCart();
+    if(cart.items.length===0){ cartEl.style.display='none'; return }
+    cartEl.style.display='block';
+    cartCount.textContent = cart.items.length;
+    cartItemsEl.innerHTML = '';
+    cart.items.forEach((it, idx)=>{
+      const div = document.createElement('div'); div.className='cart-item';
+      div.innerHTML = `<img src="./images2/pag2.jpg" style="width:48px;border-radius:8px;border:1px solid #eee"><div style="flex:1"><div>${it.name}</div><div class=\"muted\">Talla: ${it.size} • $${it.price}</div></div><button data-i=\"${idx}\" class=\"ghost\">Quitar</button>`;
+      cartItemsEl.appendChild(div);
+    });
+    cartItemsEl.querySelectorAll('button').forEach(btn=> btn.addEventListener('click', (e)=>{
+      const i = parseInt(e.currentTarget.dataset.i);
+      const c = loadCart(); c.items.splice(i,1); saveCart(c); renderCart();
+    }));
+  }
+
+  addBtn.addEventListener('click', ()=>{
+    const size = document.getElementById('size').value;
+    const cart = loadCart();
+    cart.items.push({id:19312517,name:'Hoodie 𝑬𝒔𝒔𝒆𝒏𝒕𝒊𝒂𝒍𝒔 𝑿 𝑻𝑱',size:size,price:1899});
+    saveCart(cart);
+    renderCart();
+    addBtn.textContent = 'Añadido ✓';
+    setTimeout(()=> addBtn.textContent='Añadir a la bolsa',900);
+  });
+
+  document.getElementById('viewCart').addEventListener('click', ()=>{ alert('Ir a la página de carrito (aún no implementada).'); });
+  document.getElementById('checkout').addEventListener('click', ()=>{ alert('Pagar — flujo de checkout no conectado.'); });
+
+  renderCart();
+</script>
+
+<!-- MINI CARRITO FLOTANTE GLOBAL (conecta con carrito.js si lo usas) -->
+<button id="miniCart" class="mini-cart-btn" style="display:none">
+  🛒 <span id="miniCount">0</span>
+</button>
+
+<script src="carrito.js"></script>
+
+<script>
+document.getElementById("addBtn").addEventListener("click", () => {
+  if (typeof addToCart === 'function') {
+    addToCart({
+      id: 5,
+      name: "Hoodie Essentials X TJ - Gris",
+      price: 1899,
+      size: document.getElementById("size").value,
+      image: "./images2/pag2.jpg"
+    });
+  }
+  document.getElementById("addBtn").textContent = "Añadido ✓";
+  setTimeout(()=> document.getElementById("addBtn").textContent = "Añadir a la bolsa", 900);
+});
+</script>
+
+<style>
+.mini-cart-btn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  background:#111;
+  color:#fff;
+  border:none;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:20px;
+  cursor:pointer;
+  z-index:99999;
+}
+</style>
+
+</body>
+</html>
